@@ -14,11 +14,15 @@ class Searchbar extends Component {
     this.props.handleQuery(value);
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+  };
+
   render() {
     const inputId = uuidv4();
     return (
       <header className="Searchbar">
-        <form className="SearchForm">
+        <form className="SearchForm" onSubmit={this.handleSubmit}>
           <label htmlFor={inputId}>
             <FaSearch />
             <DebounceInput
