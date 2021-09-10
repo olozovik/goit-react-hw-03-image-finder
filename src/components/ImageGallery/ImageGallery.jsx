@@ -1,26 +1,44 @@
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import s from './ImageGallery.module.css';
+import { Component } from 'react';
 
-const ImageGallery = ({ images, handleClickImage }) => {
-  return (
-    <ul className={s.list}>
-      {images.map(image => (
-        <ImageGalleryItem
-          key={`${image.id} ${image.webformatURL}`}
-          url={image.webformatURL}
-          largeImage={image.largeImageURL}
-          tags={image.tags}
-          onClick={handleClickImage}
-        />
-      ))}
-    </ul>
-  );
-};
+class ImageGallery extends Component {
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.images !== this.props.images &&
+      this.props.images.length > 12 &&
+      window.matchMedia('(min-width: 1600px)').matches
+    ) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight - 1090,
+        behavior: 'smooth',
+      });
+      console.log('more and more');
+    }
+  }
+
+  static propTypes = {
+    images: PropTypes.array,
+    handleClickImage: PropTypes.func.isRequired,
+  };
+
+  render() {
+    const { images, handleClickImage } = this.props;
+    return (
+      <ul className={s.list}>
+        {images.map(image => (
+          <ImageGalleryItem
+            key={`${image.id} ${image.webformatURL}`}
+            url={image.webformatURL}
+            largeImage={image.largeImageURL}
+            tags={image.tags}
+            onClick={handleClickImage}
+          />
+        ))}
+      </ul>
+    );
+  }
+}
 
 export { ImageGallery };
-
-ImageGallery.propTypes = {
-  images: PropTypes.array,
-  handleClickImage: PropTypes.func.isRequired,
-};
