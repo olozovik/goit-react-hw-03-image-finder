@@ -2,23 +2,9 @@ import { Component } from 'react';
 import 'modern-normalize/modern-normalize.css';
 import { Searchbar } from './components/Searchbar/Searchbar';
 import { fetchImages } from 'api/fetchImages';
+import { ImageGallery } from './components/ImageGallery/ImageGallery';
 
 class App extends Component {
-  state = {
-    query: null,
-    page: 1,
-    images: [],
-  };
-
-  handleQuery = value => {
-    const query = value
-      .trim()
-      .split(' ')
-      .filter(item => item !== '' && item !== ' ')
-      .join('+');
-    this.setState({ query });
-  };
-
   async componentDidUpdate(_, prevState) {
     const { page, query } = this.state;
     const data = await fetchImages({ page, query });
@@ -32,10 +18,34 @@ class App extends Component {
     }
   }
 
+  state = {
+    query: null,
+    page: 1,
+    images: [],
+    selectedImage: null,
+  };
+
+  handleQuery = value => {
+    const query = value
+      .trim()
+      .split(' ')
+      .filter(item => item !== '' && item !== ' ')
+      .join('+');
+    this.setState({ query });
+  };
+
+  handleClickImage = largeImage => {
+    this.setState({ selectedImage: largeImage });
+  };
+
   render() {
     return (
       <>
         <Searchbar handleQuery={this.handleQuery} />
+        <ImageGallery
+          images={this.state.images}
+          handleClickImage={this.handleClickImage}
+        />
       </>
     );
   }

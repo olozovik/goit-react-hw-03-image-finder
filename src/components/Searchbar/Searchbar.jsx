@@ -14,30 +14,24 @@ class Searchbar extends Component {
     this.props.handleQuery(value);
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-  };
-
   render() {
     const inputId = uuidv4();
     return (
       <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <label htmlFor={inputId}>
-            <FaSearch />
-            <DebounceInput
-              debounceTimeout={500}
-              id={inputId}
-              className="SearchForm-input"
-              type="text"
-              autoComplete="off"
-              autoFocus
-              placeholder="Search images and photos"
-              value={this.state.value}
-              onChange={this.onChange}
-            />
-          </label>
-        </form>
+        <label htmlFor={inputId}>
+          <FaSearch />
+          <DebounceInput
+            debounceTimeout={500}
+            id={inputId}
+            className="SearchForm-input"
+            type="text"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={this.state.value}
+            onChange={this.onChange}
+          />
+        </label>
       </header>
     );
   }
