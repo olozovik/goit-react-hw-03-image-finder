@@ -1,0 +1,29 @@
+.item {
+  position: relative;
+  height: 65vw;
+  transition: transform 100ms linear;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus {
+  transform: scale(1.015);
+}
+
+@media screen and (min-width: 768px) {
+  .item {
+    height: 32vw;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .item {
+    height: 22vw;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .item {
+    height: 16vw;
+  }
+}

@@ -2,6 +2,10 @@ import { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { DebounceInput } from 'react-debounce-input';
 import { FaSearch } from 'react-icons/fa';
+import { createPortal } from 'react-dom';
+import s from './Searchbar.module.css';
+
+const headerRoot = document.querySelector('#header-root');
 
 class Searchbar extends Component {
   state = {
@@ -16,14 +20,14 @@ class Searchbar extends Component {
 
   render() {
     const inputId = uuidv4();
-    return (
-      <header className="Searchbar">
-        <label htmlFor={inputId}>
-          <FaSearch />
+    return createPortal(
+      <header className={s.header}>
+        <label htmlFor={inputId} className={s.label}>
+          <FaSearch className={s.icon} />
           <DebounceInput
+            className={s.input}
             debounceTimeout={500}
             id={inputId}
-            className="SearchForm-input"
             type="text"
             autoComplete="off"
             autoFocus
@@ -32,7 +36,8 @@ class Searchbar extends Component {
             onChange={this.onChange}
           />
         </label>
-      </header>
+      </header>,
+      headerRoot,
     );
   }
 }

@@ -1,0 +1,12 @@
+.button {
+  display: block;
+  margin: 0 auto;
+  background-color: #4056b4;
+  color: whitesmoke;
+  padding: 8px 40px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1.4;
+}

@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
+import s from './ImageGalleryItem.module.css';
 
 const ImageGalleryItem = ({ url, tags, onClick, largeImage }) => {
   return (
-    <li className="ImageGalleryItem">
+    <li className={s.item}>
       <img
+        className={s.image}
         src={url}
         alt={tags}
-        className="ImageGalleryItem-image"
         onClick={() => onClick(largeImage)}
       />
     </li>

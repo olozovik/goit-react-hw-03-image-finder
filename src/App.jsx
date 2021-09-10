@@ -16,7 +16,7 @@ class App extends Component {
     };
 
     if (prevState.query !== query) {
-      if (query.trim() === '') {
+      if (query.trim() === '' || query.length < 2) {
         return;
       }
       const receivedImages = await getImages();
@@ -29,9 +29,6 @@ class App extends Component {
     }
 
     if (prevState.page !== page) {
-      if (query.trim() === '') {
-        return;
-      }
       const receivedImages = await getImages();
       this.setState(p => ({
         images: [...p.images, ...receivedImages],
