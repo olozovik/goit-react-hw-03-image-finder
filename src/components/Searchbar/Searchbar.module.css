@@ -5,13 +5,14 @@
   min-height: 55px;
   width: 100vw;
   padding: 10px 20px;
+  background-color: #4056b4;
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+}
 
+.inputWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: #4056b4;
-  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
 }
 
 .label {
@@ -23,8 +24,8 @@
   top: 50%;
   left: 7px;
   transform: translateY(-50%);
-  color: grey;
   width: 15px;
+  color: grey;
 }
 
 .input {

@@ -4,6 +4,11 @@ import s from './ImageGallery.module.css';
 import { Component } from 'react';
 
 class ImageGallery extends Component {
+  static propTypes = {
+    images: PropTypes.arrayOf(PropTypes.object),
+    handleClickImage: PropTypes.func.isRequired,
+  };
+
   componentDidUpdate(prevProps) {
     if (
       prevProps.images !== this.props.images &&
@@ -17,11 +22,6 @@ class ImageGallery extends Component {
       console.log('more and more');
     }
   }
-
-  static propTypes = {
-    images: PropTypes.array,
-    handleClickImage: PropTypes.func.isRequired,
-  };
 
   render() {
     const { images, handleClickImage } = this.props;

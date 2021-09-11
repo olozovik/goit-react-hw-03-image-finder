@@ -11,6 +11,7 @@ class App extends Component {
   async componentDidUpdate(_, prevState) {
     const { page, query } = this.state;
     const getImages = async () => {
+      this.setState({ status: 'pending' });
       const data = await fetchImages({ page, query });
       this.setState({ totalHits: data.data.totalHits });
       return data.data.hits;
@@ -20,25 +21,25 @@ class App extends Component {
       if (query.trim() === '' || query.length < 2) {
         return;
       }
-      this.setState({ status: 'pending' });
       const receivedImages = await getImages();
       this.setState({
         images: receivedImages,
       });
       this.setState({
         quantityImages: this.state.images.length,
+        status: 'resolved',
       });
-      this.setState({ status: 'resolved' });
     }
 
     if (prevState.page !== page) {
-      this.setState({ status: 'pending' });
       const receivedImages = await getImages();
       this.setState(p => ({
         images: [...p.images, ...receivedImages],
       }));
-      this.setState({ quantityImages: this.state.images.length });
-      this.setState({ status: 'resolved' });
+      this.setState({
+        quantityImages: this.state.images.length,
+        status: 'resolved',
+      });
     }
   }
 
@@ -80,16 +81,18 @@ class App extends Component {
   };
 
   render() {
-    const { selectedImage, images, status } = this.state;
-    const isLoadPossible =
-      images.length > 0 && this.state.quantityImages < this.state.totalHits;
+    const { selectedImage, images, status, quantityImages, totalHits } =
+      this.state;
+
+    const isLoadPossible = images.length > 0 && quantityImages < totalHits;
     const isLoading = status === 'pending';
+
     return (
       <>
         <Searchbar handleQuery={this.handleQuery} />
         {isLoading && <Loader />}
         <ImageGallery
-          images={this.state.images}
+          images={images}
           handleClickImage={this.handleClickImage}
         />
         {isLoadPossible && (
@@ -97,8 +100,8 @@ class App extends Component {
         )}
         {selectedImage && (
           <Modal
-            url={this.state.selectedImage}
-            images={this.state.images}
+            url={selectedImage}
+            images={images}
             handleCloseModal={this.handleCloseModal}
             handleBackdropClose={this.handleBackdropClose}
           />

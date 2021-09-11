@@ -1,8 +1,8 @@
 .item {
   position: relative;
   height: 65vw;
-  transition: transform 100ms linear;
   cursor: pointer;
+  transition: transform 100ms linear;
 }
 
 .item:hover,
