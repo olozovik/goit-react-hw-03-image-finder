@@ -9,37 +9,41 @@ import { Loader } from 'components/Loader/Loader';
 
 class App extends Component {
   async componentDidUpdate(_, prevState) {
-    const { page, query } = this.state;
-    const getImages = async () => {
+    const getImages = async (page, query) => {
       this.setState({ status: 'pending' });
       const data = await fetchImages({ page, query });
       this.setState({ totalHits: data.data.totalHits });
       return data.data.hits;
     };
 
-    if (prevState.query !== query) {
-      if (query.trim() === '' || query.length < 2) {
+    const setImages = receivedImages => {
+      if (prevState.page !== this.state.page) {
+        this.setState(p => ({
+          images: [...p.images, ...receivedImages],
+        }));
+      }
+      if (prevState.query !== this.state.query) {
+        this.setState({
+          images: receivedImages,
+        });
+      }
+    };
+
+    if (
+      prevState.query !== this.state.query ||
+      prevState.page !== this.state.page
+    ) {
+      if (this.state.query.trim() === '' || this.state.query.length < 2) {
         return;
       }
-      const receivedImages = await getImages();
-      this.setState({
-        images: receivedImages,
-      });
-      this.setState({
-        quantityImages: this.state.images.length,
-        status: 'resolved',
-      });
-    }
-
-    if (prevState.page !== page) {
-      const receivedImages = await getImages();
-      this.setState(p => ({
-        images: [...p.images, ...receivedImages],
-      }));
-      this.setState({
-        quantityImages: this.state.images.length,
-        status: 'resolved',
-      });
+      if (prevState.query !== this.state.query && this.state.page > 1) {
+        this.setState({ page: 1, images: [] });
+        return;
+      }
+      const receivedImages = await getImages(this.state.page, this.state.query);
+      setImages(receivedImages);
+      this.setState({ quantityImages: this.state.images.length });
+      this.setState({ status: 'resolved' });
     }
   }
 

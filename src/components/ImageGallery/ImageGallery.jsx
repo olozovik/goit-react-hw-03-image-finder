@@ -19,7 +19,6 @@ class ImageGallery extends Component {
         top: document.documentElement.scrollHeight - 1090,
         behavior: 'smooth',
       });
-      console.log('more and more');
     }
   }
 
