@@ -16,34 +16,37 @@ class App extends Component {
       return data.data.hits;
     };
 
+    const { page, query } = this.state;
+
     const setImages = receivedImages => {
-      if (prevState.page !== this.state.page) {
+      if (prevState.page !== page) {
         this.setState(p => ({
           images: [...p.images, ...receivedImages],
         }));
       }
-      if (prevState.query !== this.state.query) {
+      if (prevState.query !== query) {
         this.setState({
           images: receivedImages,
         });
       }
     };
 
-    if (
-      prevState.query !== this.state.query ||
-      prevState.page !== this.state.page
-    ) {
-      if (this.state.query.trim() === '' || this.state.query.length < 2) {
+    if (prevState.query !== query || prevState.page !== page) {
+      if (query.trim() === '' || query.length < 2) {
         return;
       }
-      if (prevState.query !== this.state.query && this.state.page > 1) {
+
+      if (prevState.query !== query && page > 1) {
         this.setState({ page: 1, images: [] });
         return;
       }
-      const receivedImages = await getImages(this.state.page, this.state.query);
+
+      const receivedImages = await getImages(page, query);
       setImages(receivedImages);
-      this.setState({ quantityImages: this.state.images.length });
-      this.setState({ status: 'resolved' });
+      this.setState({
+        quantityImages: this.state.images.length,
+        status: 'resolved',
+      });
     }
   }
 
